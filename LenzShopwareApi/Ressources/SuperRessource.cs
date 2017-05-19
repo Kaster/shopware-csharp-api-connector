@@ -13,10 +13,18 @@ namespace Lenz.ShopwareApi.Ressources
 
         protected IRestClient client { get; set; }
 
-        public SuperRessource(IRestClient client) {
+        protected List<KeyValuePair<String, String>> QueryParameter;
+
+        protected SuperRessource(IRestClient client) {
             this.client = client;
+            this.QueryParameter = new List<KeyValuePair<String, String>>();
         }
 
+        public void AddQueryParameter(string name, string value)
+        {
+            this.QueryParameter.Add(new KeyValuePair<String, String>(name, value));
+        }
+        
         public TResponse get(int id)
         {
             try
@@ -137,6 +145,14 @@ namespace Lenz.ShopwareApi.Ressources
                 foreach (KeyValuePair<String, String> parameter in parameters)
                 {
                     request.AddUrlSegment(parameter.Key, parameter.Value); // replaces matching token in request.Resource
+                }
+            }
+
+            if (this.QueryParameter != null)
+            {
+                foreach (KeyValuePair<String, String> parameter in this.QueryParameter)
+                {
+                    request.AddQueryParameter(parameter.Key, parameter.Value);
                 }
             }
 

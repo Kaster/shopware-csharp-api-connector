@@ -45,7 +45,8 @@ namespace Lenz.ShopwareApi.Ressources
         /// <returns></returns>
         public ArticleMain getByOrdernumber(string ordernumber)
         {
-            return this.get(ordernumber + "?useNumberAsID=true");
+            this.AddQueryParameter("useNumberAsId","1");
+            return this.get(ordernumber);
         }
     }
 }
